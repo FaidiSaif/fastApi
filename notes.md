@@ -121,4 +121,9 @@ according to the example if 2 passwords are equal they have the same hash (based
 -pip install python-jose[cryptography] 
 
 # postman envirement variables
-in postman it's possible to create env vars to avoid changing vars in every request
+in postman it's possible to create env vars to avoid changing vars in every request 
+
+# jointure 
+SELECT *
+FROM A
+INNER JOIN B ON A.key = B.key

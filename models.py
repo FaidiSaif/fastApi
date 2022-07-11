@@ -38,3 +38,13 @@ class User(Base):
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
     #name = Column(String, nullable=False)
+
+# ondelte means if the referenced parent table entry deleted delete the current item, example , if user is deleted then delete the vote 
+# if 2 columns are provided as primary_key it's called a composite key 
+class Vote(Base):
+    __tablename__ = "votes"
+    user_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="CASCADE"), primary_key=True)
+    post_id = Column(Integer, ForeignKey(
+        "posts.id", ondelete="CASCADE"), primary_key=True)
+    # => this means user_id + post_id == primary_key(the correct terminology is composite key ) 

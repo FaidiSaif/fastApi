@@ -1,7 +1,7 @@
 from datetime import datetime
 from secrets import token_bytes
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, conint
 
 # this inheritance defines a data model so that the request body should be resppected
 # i.e. this is a way to enforce the data types and the json keys
@@ -39,7 +39,6 @@ class PostBase(BaseModel):  # " this is a pydantic model"
 class PostCreate(PostBase):
     pass
 
-
 # defining the return schema using a new Model
 class Post(PostBase):
     id: int
@@ -49,7 +48,13 @@ class Post(PostBase):
     class Config:
         orm_mode = True
 
+# after adding the votes to the return value the result is transformed to {Post : 'balabla' , votes : int} => that's why we added this schema 
+class PostOut(BaseModel):
+    Post: Post
+    votes: int
 
+    class Config:
+        orm_mode = True
 
 
 
@@ -66,3 +71,10 @@ class Token (BaseModel) :
 
 class TokenData(BaseModel): 
     id : Optional[str]
+
+
+
+## schema for vote 
+class Vote(BaseModel):
+    post_id: int
+    dir: conint(le=1)

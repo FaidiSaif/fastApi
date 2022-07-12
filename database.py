@@ -12,6 +12,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+#contains a MetaData object where newly defined Table objects are collected
 Base = declarative_base()
 
 

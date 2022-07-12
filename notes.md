@@ -1,3 +1,5 @@
+# https://github.com/Sanjeev-Thiyagarajan/fastapi-course
+
 launch the app: 
   uvicorn main:app --reload
 
@@ -72,8 +74,22 @@ def get_db():
         db.close()
 
 
-# alembic
+# alembic (the git of the database )
 is the tool responsible for migrating database 
+- first step is to init alembic : alembic --init 
+- need to have access to the declarative Base object in the alembic/env.py
+- in the alembic env.py override the sqlalchemy.url variable coming from the almebic.ini file using config.set_main_option
+- important to import Base from the models file (to alow alembic to read all the tables) and not from database
+- when creation a revision with alembic , it generates a file for you where you have to  implement the
+upgradinging and downgrading logics 
+- to create a revision  : alembic revision -m "message to tag this revision"
+- to run a revision function : alembic upgrade ccdrf5r5 (from the revision file)
+- to go to the previous rev : alembic downgrade -1 
+- to go to the next rev : alembic downgrade +1 , up 2  rev : alembic downgrade +2
+- upgrade to the last rev : alembic upgrade head   
+- if you want to auto-generate a revision from the existing models 
+you can use alembic revision --autogenerate -m "ypur-message"
+=> alembic did this automatically thanks to the target_metadata we set in the env.py 
 
 # pydantic model vs sqlAlchemy model
 - pydantic :  defines the shape of the request, the request model 
@@ -127,3 +143,9 @@ in postman it's possible to create env vars to avoid changing vars in every requ
 SELECT *
 FROM A
 INNER JOIN B ON A.key = B.key
+
+# convention forign keys
+assume table posts has owner_id which reference the user is in the users table 
+so source : posts & target : users 
+convention naming : source_target_fk => posts_users_fk 
+

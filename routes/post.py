@@ -8,7 +8,6 @@ from app.database import get_db
 from  app import models
 from typing import List, Optional
 from app import oauth2
-
 router = APIRouter(
     prefix='/posts',
     tags=['Posts']
@@ -22,7 +21,6 @@ async def get_posts(db: Session = Depends(get_db), current_user=Depends(oauth2.g
     # isouter is necessary here because by default join uses inner join
     posts = db.query(models.Post, func.count(models.Vote.post_id).label('votes')).join(models.Vote,
                                                                                        models.Vote.post_id == models.Post.id,   isouter=True).group_by(models.Post.id).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
-
     return posts
 
 

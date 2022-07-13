@@ -1,17 +1,16 @@
 from fastapi import APIRouter, HTTPException,  status, Depends
 from sqlalchemy.orm import Session
-import schemas
-from database import get_db
-import models
+from app.database import get_db
+from app import models
 from typing import List
-import utils
+from app import utils
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-import database
-import oauth2
+from app import database
+from app import oauth2
 
 router = APIRouter(tags=['Authentication'])
 
-
+from app import schemas
 
 # OAuth2PasswordRequestForm
 # => means use this route only when OAuth2PasswordRequestForm provided  
@@ -24,7 +23,7 @@ router = APIRouter(tags=['Authentication'])
 # it worked for me with params also :p
 #
 
-@router.post('/login')
+@router.post('/login',response_model=schemas.Token)
 async def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
 
     user = db.query(models.User).filter(

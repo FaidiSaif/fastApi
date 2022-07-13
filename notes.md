@@ -149,3 +149,75 @@ assume table posts has owner_id which reference the user is in the users table
 so source : posts & target : users 
 convention naming : source_target_fk => posts_users_fk 
 
+# alembic in prod
+-don't create revision in the prod env 
+-just check the revision created in the dev env 
+
+# --host 
+-by default when your run a server in the machine it listen on the 127.0.0.1 ip address 
+-if your machine has many ip @ like 127.0.0.1 and 192.168.0.44 and you want your server to nbe listinig on all the @
+=> provide the --host 0.0.0.0 option , now it listens to all the addresses 
+## uvicorn --host 0.0.0.0 app.main:app
+
+# gunicorn 
+- pip install gunicorn 
+- pip install httptools 
+- pip install uvloop
+
+gunicorn --workers => set up  the number of workers 
+
+# nginx
+nginx is a more professional way to loadbalance the requests 
+using guincorn is fine but it does not handle proxy, ssl ...
+nginx is an intermediate web server high peroformant and optimised for SSL termination (https requets)
+-if we use our app to handle ssl we gonna see degradation in performance that's why we use nginx 
+==== https ====> nginx ====> http ====> guincorn , it forward https requests to the app in the form of http
+
+# firewall 
+if you want to access your db remotly : enable port 5432(for the db) to be remotly accessbile 
+
+# docker 
+docker does not run all the steps each time , it caches the steps in dockerfile and only runs the the remaining 
+steps, see 13:30
+
+# bind mount 
+it syncs folder from machine and folder in docker image 
+so don't need to remove the image every time and recreate it 
+in your docker-compose service we added a volumes section where you specify the associated path 
+/./:/usr/src/app:ro => ro stands for read only , paths to be in syncs from docker image and localhost 
+- normally we don't need command section in docker compose because we have it in dockerfile
+but because even when making changes are updates thanks to bind mount the docker compose 
+file is not reloading 
+
+
+# testing 
+running a test  => py -3 tests\test_calculations.py
+by default pytest looks for all the files matching the pattern  *_test.py , test_*.py
+so when you run hte command "pytest" => it looks for all the matching files and runs the associated tests
+=> this is called auto-discovery
+methods should match the pattern test_*
+by default pytest does not ruin you print statement , to make it do so add the -s flag 
+-x option : stop after the first fail 
+# fixture
+is a function that runs before each test  
+
+#  /users/ or /users
+- when using only /users => pytest gonna automatically redirects you to /users/
+- /users causes an issue because the http return code is 307 , becuase of the redirection => make sure you use /users/
+
+
+# in pytest form-data
+- when you send data as form data for login use the arg data=
+- when you send data as body use the arg json= 
+
+
+# fixture scopes
+- id fixture going to run once by function , class , module...(by default it's set to function)
+- pytest run the tests in the order from top to bottom   
+
+# conftest 
+this file has all the fixtures 
+
+# run test
+1- specific file : pytest -v -s .\tests\test_posts.py
+2- all pytest -v -s s

@@ -1,15 +1,9 @@
 from datetime import datetime
-from secrets import token_bytes
 from typing import Optional
 from pydantic import BaseModel, EmailStr, conint
 
 # this inheritance defines a data model so that the request body should be resppected
 # i.e. this is a way to enforce the data types and the json keys
-
-
-
-
-
 
 #user schemas 
 class UserBase(BaseModel):

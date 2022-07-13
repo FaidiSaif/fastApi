@@ -3,11 +3,11 @@ from fastapi import APIRouter,  status, HTTPException, Depends
 # this func provides methods like max, sum , count ..
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-import schemas
-from database import get_db
-import models
+from  app import schemas
+from app.database import get_db
+from  app import models
 from typing import List, Optional
-import oauth2
+from app import oauth2
 
 router = APIRouter(
     prefix='/posts',

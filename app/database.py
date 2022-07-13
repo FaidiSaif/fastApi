@@ -1,8 +1,7 @@
-from venv import create
 from sqlalchemy import create_engine, false
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import settings 
+from app.config import settings 
 #SQLALCHEMY_DATABASE_URL = 'postgresql://<username>:<password>@<ip-address/hostname>/<database_name>'
 #SQLALCHEMY_DATABASE_URL  = 'postgresql://postgres:postgres@localhost:49155/fastapi'
 SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}'
